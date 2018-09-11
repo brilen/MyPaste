@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+////    $pastes = DB::table('pastes')
+////            ->latest()
+////            ->where(['private', false], ['access_all', true])
+////            ->get();
+//    return view('welcome');//, compact('pastes')
+//});
+Route::get('/', 'PastesController@showLast');
+Route::post('/', 'PastesController@insert');
+Route::get('/{paste}', 'PastesController@show');
+
+//Route::get('/{paste}', 'PastesController@show');

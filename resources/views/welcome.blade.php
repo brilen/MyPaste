@@ -29,17 +29,64 @@
                 text-align: center;
                 display: inline-block;
             }
-
-            .title {
-                font-size: 96px;
-            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <form method="post" action="{{ url('/') }}">
+		{{ csrf_field() }}
+		<textarea name="paste_code" class="paste_textarea" rows="10" id="paste_code" ></textarea>
+		
+		<div class="form_frame">
+				<div class="form_left">
+					Срок действия пасты:
+				</div>
+				<div class="form_right">
+					<select class="" name="paste_expire_time">	
+						<option value="10M" selected="selected">10 Minutes</option>
+						<option value="1H">1 Hour</option>
+						<option value="3H">3 Hour</option>
+						<option value="1D">1 Day</option>
+						<option value="1W">1 Week</option>
+						<option value="Never">Never</option>
+					</select>
+				</div>
+			</div>
+			<div class="form_frame">
+				<div class="form_left">
+					Доступ к пасте:
+				</div>
+				<div class="form_right">
+					<select class="" name="paste_private">
+						<option value="0" selected="selected">Public</option>
+						<option value="1">Unlisted</option>
+					</select>
+				</div>
+			</div>
+		<div class="form_frame">
+				<div class="form_left">
+					Название пасты:
+				</div>
+				<div class="form_right">
+					<input type="text" name="paste_name" size="20" maxlength="60" value="" class="">
+				</div>
+			</div>
+		<input name="submit" type="submit" value="Создать Пасту" id="submit" class="">
+	</form>
             </div>
+            <div class="container">
+            <span>Последние пасты</span>
+            <ul>
+                @foreach ($pastes as $paste)
+                <li>
+                    <a href="{{$paste->hash}}">
+                        {{$paste->name}}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
         </div>
     </body>
 </html>
