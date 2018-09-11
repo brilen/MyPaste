@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasteMainTable extends Migration
+class CreatePastesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class CreatePasteMainTable extends Migration
      */
     public function up()
     {
-        Schema::create('paste_main', function (Blueprint $table) {
+        Schema::create('pastes', function (Blueprint $table) {
             $table->increments('id');
             $table->text('code');
             $table->string('expire_time', 6);
             $table->boolean('private');
             $table->string('name', 60);
             $table->boolean('access_all');
+            $table->string('hash', 30)->unique();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreatePasteMainTable extends Migration
      */
     public function down()
     {
-        Schema::drop('paste_main');
+        Schema::drop('pastes');
     }
 }
