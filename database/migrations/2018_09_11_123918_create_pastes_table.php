@@ -15,10 +15,10 @@ class CreatePastesTable extends Migration
         Schema::create('pastes', function (Blueprint $table) {
             $table->increments('id');
             $table->text('code');
-            $table->string('expire_time', 6);
             $table->boolean('private');
             $table->string('name', 60);
             $table->boolean('access_all');
+            $table->datetime('life_time');
             $table->string('hash', 30)->unique();
             $table->timestamps();
         });

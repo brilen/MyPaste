@@ -10,28 +10,46 @@ use App;
 class PastesController extends Controller
 {
     public function show(App\Paste $paste){
-        //$paste = App\Paste::where('hash', $hash);
-        //$paste = App\Paste::find($id);
-        //$paste = App\Paste::find($hash);
-        return view('view', compact('paste'));
+        if ($paste->life_time > date("Y-m-d H:i:s") || $paste->access_all == 1){
+            return view('view', compact('paste'));
+        } else{
+           return redirect('/');
+        }
+        
     }
 
     public function showLast(){
         $pastes = DB::table('pastes')
             ->latest()
-            ->where([['private', '=', false], ['access_all', '=', true]])
+            ->where(function($query){
+                $query->where('access_all', '=', true)
+                ->orWhere('life_time', '>', date("Y-m-d H:i:s"));
+            })
+            ->where('private', '=', 'false')
+            ->limit(10)
             ->get();
         return view('welcome', compact('pastes'));
     }
 
     public function insert(Request $request){
         
+        $access =  1;
+        $now = date("Y-m-d H:i:s");
+        
+        if ($request->paste_expire_time == 'Never') {
+            $access = 0;
+        }
+        else {
+            $now = $this->getLifeTime($request->paste_expire_time, $now);
+            
+        }
+        
         $paste = new App\Paste;
         $paste->code = $request->paste_code;
-        $paste->expire_time = $request->paste_expire_time;
         $paste->private = $request->paste_private;
         $paste->name = $request->paste_name;
-        $paste->access_all = true;
+        $paste->access_all = $access;
+        $paste->life_time = $now;
         $hash = $this->getHash();
         $paste->hash = $hash;
         $paste->save();
@@ -49,5 +67,31 @@ class PastesController extends Controller
         }
         
         return $hash;       
+    }
+    
+    private function getLifeTime($expire_time, $date){
+        $lifetime = 0;
+        $timestamp = strtotime($date);
+        switch ($expire_time) {
+            case '10M':
+                $lifetime= $timestamp + 10*60;
+                break;
+            case '1H':
+                $lifetime= $timestamp + 60*60;
+                break;
+            case '3H':
+                $lifetime= $timestamp + 3*60*60;
+                break;
+            case 'D':
+                $lifetime= $timestamp + 24*60*60;
+                break;
+            case 'W':
+                $lifetime= $timestamp + 7*24*60*60;
+                break;
+            case 'M':
+                $lifetime = mktime(date("H",$timestamp), date("i",$timestamp), date("s",$timestamp), date("m",$timestamp)+1, date("d",$timestamp),   date("Y",$timestamp));
+                break;
+        }
+        return date("Y-m-d H:i:s", $lifetime);
     }
 }

@@ -44,12 +44,13 @@
 				</div>
 				<div class="form_right">
 					<select class="" name="paste_expire_time">	
-						<option value="10M" selected="selected">10 Minutes</option>
-						<option value="1H">1 Hour</option>
-						<option value="3H">3 Hour</option>
-						<option value="1D">1 Day</option>
-						<option value="1W">1 Week</option>
-						<option value="Never">Never</option>
+						<option value="10M" selected="selected">10 минут</option>
+						<option value="1H">1 час</option>
+						<option value="3H">3 часа</option>
+						<option value="D">1 день</option>
+						<option value="W">1 неделя</option>
+                                                <option value="M">1 месяц</option>
+						<option value="Never">Без ограничений</option>
 					</select>
 				</div>
 			</div>

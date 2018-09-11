@@ -10,13 +10,4 @@ class Paste extends Model
     {
         return 'hash';
     }
-    
-    /*public function getLastPastes()
-    {
-        $pastes = DB::table('pastes')
-            ->latest()
-            ->where(['private', false], ['access_all', true])
-            ->get();
-        return $pastes;
-    }*/
 }
