@@ -1,11 +1,11 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h4 class="mb-3">Твоя паста!</h4>
+    <h4 class="mb-3">Поделись этой пастой!</h4>
     <form method="post" action="{{ url('/') }}">
         {{ csrf_field() }}
         <div class="mb-3">
-            <label for="paste_url">Ссылка на твою пасту:</label>
+            <label for="paste_url">Ссылка на пасту:</label>
             <input type="text" id="paste_url" class="form-control" value="{{ url('/').'/'.$paste->hash }}" readonly>
         </div>
         <div class="mb-3">

@@ -16,7 +16,7 @@ class CreatePastesTable extends Migration
             $table->increments('id');
             $table->string('name', 60);
             $table->text('code');
-            $table->boolean('private');
+            $table->tinyInteger('private');
             $table->boolean('access_all');
             $table->datetime('life_time');
             $table->integer('user_id');

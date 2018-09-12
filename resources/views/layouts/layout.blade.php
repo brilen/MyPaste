@@ -44,18 +44,36 @@
     <div class="container">
             <div class="row">
                 <div class="col-md-4 order-md-2 mb-4">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-muted">Последние пасты</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        @foreach ($pastes as $paste)
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <a href="{{$paste->hash}}">
-                                {{$paste->name}}
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
+                    @if (! Auth::guest())
+                    <div>
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted">Твои последние пасты</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            @foreach ($userPastes as $paste)
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <a href="{{$paste->hash}}">
+                                    {{$paste->name}}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <div>
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted">Последние пасты</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            @foreach ($lastPastes as $paste)
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <a href="{{$paste->hash}}">
+                                    {{$paste->name}}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-md-8 order-md-1">
                     @yield('content')

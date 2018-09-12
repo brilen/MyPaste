@@ -28,8 +28,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 
 Route::get('/', 'PastesController@showLast');
 Route::post('/', 'PastesController@insert');
-Route::get('/{paste}', 'PastesController@show');
+Route::get('/{paste}', 'PastesController@showPaste');

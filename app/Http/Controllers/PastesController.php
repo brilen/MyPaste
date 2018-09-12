@@ -6,31 +6,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App;
+use Auth;
 
 class PastesController extends Controller
 {
-    public function show(App\Paste $paste){
-        if ($paste->life_time > date("Y-m-d H:i:s") || $paste->access_all == 1){
-            $pastes = $this->getLastPastes();
-            return view('view', compact('paste'), compact('pastes'));
-        } else{
-           return redirect('/');
-        }
+    public function showPaste(App\Paste $paste){
         
+        if ($paste->private < 2){
+            if ($paste->life_time > date("Y-m-d H:i:s") || $paste->access_all == 1){
+                return $this->getView($paste);
+            }
+        } else {
+            //чтобы сам автор мог видеть private пасты
+            if (!Auth::guest() && $paste->user_id === Auth::user()->id){
+                   return $this->getView($paste);
+                }
+        }
+        return redirect('/');
     }
 
     public function showLast(){
-        $pastes = $this->getLastPastes();
-        return view('welcome', compact('pastes'));
+        $userPastes = NULL;
+        $lastPastes = $this->getLastPastes();
+        if (! Auth::guest()){
+            $userPastes = $this->getLastUserPastes();
+        }
+        return view('welcome')->with([
+                            'userPastes' => $userPastes,
+                            'lastPastes' => $lastPastes
+                          ]);
     }
 
     public function insert(Request $request){
         
-        $access =  1;
+        $currentUser = '';
+        if (! Auth::guest()) $currentUser = Auth::user()->id;
+        
+        $access =  0;
         $now = date("Y-m-d H:i:s");
         
         if ($request->paste_expire_time == 'Never') {
-            $access = 0;
+            $access = 1;
         }
         else {
             $now = $this->getLifeTime($request->paste_expire_time, $now);
@@ -45,9 +61,23 @@ class PastesController extends Controller
         $paste->life_time = $now;
         $hash = $this->getHash();
         $paste->hash = $hash;
+        $paste->user_id = $currentUser;
         $paste->save();
         
-        return view('view', compact('paste'));
+        return $this->getView($paste);
+    }
+    
+    private function getView($paste){
+        $userPastes = NULL;
+        $lastPastes = $this->getLastPastes();
+        if (! Auth::guest()){
+            $userPastes = $this->getLastUserPastes(Auth::user()->id);     
+        }
+        return view('view')->with([
+                    'paste' => $paste,
+                    'userPastes' => $userPastes,
+                    'lastPastes' => $lastPastes
+                  ]);
     }
     
     private function getLastPastes(){
@@ -57,10 +87,23 @@ class PastesController extends Controller
                 $query->where('access_all', '=', true)
                 ->orWhere('life_time', '>', date("Y-m-d H:i:s"));
             })
-            ->where('private', '=', 'false')
+            ->where('private', '=', '0')
             ->limit(10)
             ->get();
             return $pastes;
+    }
+    
+    private function getLastUserPastes(){
+        $userPastes = DB::table('pastes')
+            ->latest()
+            ->where('user_id', '=', Auth::user()->id)
+            ->where(function($query){
+                $query->where('access_all', '=', true)
+                ->orWhere('life_time', '>', date("Y-m-d H:i:s"));
+            })
+            ->limit(10)
+            ->get();
+            return $userPastes;
     }
 
         private function getHash(){

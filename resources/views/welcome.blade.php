@@ -29,6 +29,7 @@
                 <select class="custom-select d-block w-100" name="paste_private" id="paste_private">
                     <option value="0" selected="selected">Public</option>
                     <option value="1">Unlisted</option>
+                    <option value="2">Private</option>
                 </select>
             </div>
         </div>   
