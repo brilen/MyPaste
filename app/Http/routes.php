@@ -14,22 +14,18 @@
 
 
 Route::auth();
-
-//Route::get('/home', 'HomeController@index');
 Route::get('/login', 'PastesController@showLast');
 // Маршруты аутентификации...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-
 // Маршруты регистрации...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::auth();
 
-//Route::get('/home', 'HomeController@index');
-
+Route::get('/home', 'HomeController@index');
 Route::get('/', 'PastesController@showLast');
 Route::post('/', 'PastesController@insert');
 Route::get('/{paste}', 'PastesController@showPaste');
