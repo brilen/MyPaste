@@ -20,15 +20,7 @@ class PastesController extends Controller
     }
 
     public function showLast(){
-        $pastes = DB::table('pastes')
-            ->latest()
-            ->where(function($query){
-                $query->where('access_all', '=', true)
-                ->orWhere('life_time', '>', date("Y-m-d H:i:s"));
-            })
-            ->where('private', '=', 'false')
-            ->limit(10)
-            ->get();
+        $pastes = $this->getLastPastes();
         return view('welcome', compact('pastes'));
     }
 

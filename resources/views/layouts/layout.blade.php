@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>PasteBin</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <title>PasteBin</title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+       
         <style>
             .container {
                 max-width: 960px;
@@ -17,10 +20,28 @@
               .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 
               .lh-condensed { line-height: 1.25; }
+              .fa-btn { margin-right: 6px;}
         </style>
-    </head>
-    <body class="bg-light">
-        <div class="container">
+</head>
+<body  id="app-layout" class="bg-light">
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container justify-content-end">
+                <ul class="nav">
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Регистрация</a></li>
+                    @else
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Выйти</a></li>
+                    @endif
+                </ul>
+        </div>
+    </nav>
+
+    
+    <div class="container">
             <div class="row">
                 <div class="col-md-4 order-md-2 mb-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -41,5 +62,7 @@
                 </div>
             </div>
         </div>
-    </body>
+    
+    
+</body>
 </html>
