@@ -34,6 +34,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Регистрация</a></li>
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/home') }}">Мои пасты</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Выйти</a></li>
                     @endif
                 </ul>
