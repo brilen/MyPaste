@@ -8,7 +8,6 @@
      <title>PasteBin</title>
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
        
-     
         <style>
             .container {
                 max-width: 960px;
@@ -35,48 +34,16 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Регистрация</a></li>
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/home') }}">Мои пасты</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Выйти</a></li>
                     @endif
                 </ul>
         </div>
     </nav>
 
-     <div class="container">
-                <div class="row col-md-12">
-                    @if (! Auth::guest())
-                    <div class="col-md-6">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-muted">Твои последние пасты</span>
-                        </h4>
-                        <ul class="list-group mb-3">
-                            @foreach ($userPastes as $paste)
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <a href="{{$paste->hash}}">
-                                    {{$paste->name}}
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
-                    <div class="col-md-6">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-muted">Последние пасты</span>
-                        </h4>
-                        <ul class="list-group mb-3">
-                            @foreach ($lastPastes as $paste)
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <a href="{{$paste->hash}}">
-                                    {{$paste->name}}
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-         </div>
+    
     @yield('content')
+
+    
     
 </body>
 </html>

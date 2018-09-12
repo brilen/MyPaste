@@ -12,7 +12,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($userPastesTable as $paste)
+                    @foreach ($userPastes as $paste)
                     <tr>
                       <td>{{$paste->name}}</td>
                       <td>{{$paste->code}}</td>
@@ -21,7 +21,7 @@
                   @endforeach
                 </tbody>
               </table>
-            {{$userPastesTable->links()}}
+            {{$userPastes->links()}}
         </div>
 </div>
 @endsection
