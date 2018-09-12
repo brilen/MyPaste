@@ -11,7 +11,8 @@ class PastesController extends Controller
 {
     public function show(App\Paste $paste){
         if ($paste->life_time > date("Y-m-d H:i:s") || $paste->access_all == 1){
-            return view('view', compact('paste'));
+            $pastes = $this->getLastPastes();
+            return view('view', compact('paste'), compact('pastes'));
         } else{
            return redirect('/');
         }
@@ -57,7 +58,20 @@ class PastesController extends Controller
         return view('view', compact('paste'));
     }
     
-    private function getHash(){
+    private function getLastPastes(){
+        $pastes = DB::table('pastes')
+            ->latest()
+            ->where(function($query){
+                $query->where('access_all', '=', true)
+                ->orWhere('life_time', '>', date("Y-m-d H:i:s"));
+            })
+            ->where('private', '=', 'false')
+            ->limit(10)
+            ->get();
+            return $pastes;
+    }
+
+        private function getHash(){
         $hash = '';
         $length = 8;
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

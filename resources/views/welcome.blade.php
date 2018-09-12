@@ -1,93 +1,37 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.layout')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <form method="post" action="{{ url('/') }}">
-		{{ csrf_field() }}
-		<textarea name="paste_code" class="paste_textarea" rows="10" id="paste_code" ></textarea>
-		
-		<div class="form_frame">
-				<div class="form_left">
-					Срок действия пасты:
-				</div>
-				<div class="form_right">
-					<select class="" name="paste_expire_time">	
-						<option value="10M" selected="selected">10 минут</option>
-						<option value="1H">1 час</option>
-						<option value="3H">3 часа</option>
-						<option value="D">1 день</option>
-						<option value="W">1 неделя</option>
-                                                <option value="M">1 месяц</option>
-						<option value="Never">Без ограничений</option>
-					</select>
-				</div>
-			</div>
-			<div class="form_frame">
-				<div class="form_left">
-					Доступ к пасте:
-				</div>
-				<div class="form_right">
-					<select class="" name="paste_private">
-						<option value="0" selected="selected">Public</option>
-						<option value="1">Unlisted</option>
-					</select>
-				</div>
-			</div>
-		<div class="form_frame">
-				<div class="form_left">
-					Название пасты:
-				</div>
-				<div class="form_right">
-					<input type="text" name="paste_name" size="20" maxlength="60" value="" class="">
-				</div>
-			</div>
-		<input name="submit" type="submit" value="Создать Пасту" id="submit" class="">
-	</form>
+@section('content')
+    <h4 class="mb-3">Оставь свою пасту!</h4>
+    <form method="post" action="{{ url('/') }}">
+        {{ csrf_field() }}
+        <div class="mb-3">
+            <label for="paste_name">Название пасты:</label>
+            <input type="text" name="paste_name" id="paste_name" class="form-control" size="20" maxlength="60" value="" class="">
+        </div>
+        <div class="mb-3">
+            <textarea name="paste_code" class="form-control" rows="10" id="paste_code" ></textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="paste_expire_time">Срок действия пасты:</label>	
+                <select class="custom-select d-block w-100" name="paste_expire_time" id="paste_expire_time" required>	
+                    <option value="10M" selected="selected">10 минут</option>
+                    <option value="1H">1 час</option>
+                    <option value="3H">3 часа</option>
+                    <option value="D">1 день</option>
+                    <option value="W">1 неделя</option>
+                    <option value="M">1 месяц</option>
+                    <option value="Never">Без ограничений</option>
+                </select>	
             </div>
-            <div class="container">
-            <span>Последние пасты</span>
-            <ul>
-                @foreach ($pastes as $paste)
-                <li>
-                    <a href="{{$paste->hash}}">
-                        {{$paste->name}}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-        </div>
-    </body>
-</html>
+            <div class="col-md-6 mb-3">
+                <label for="paste_private">Доступ к пасте:</label>
+                <select class="custom-select d-block w-100" name="paste_private" id="paste_private">
+                    <option value="0" selected="selected">Public</option>
+                    <option value="1">Unlisted</option>
+                </select>
+            </div>
+        </div>   
+        <input class="btn btn-primary btn-lg btn-block" name="submit" type="submit" value="Создать Пасту" id="submit" class="">
+    </form>
+@endsection

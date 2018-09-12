@@ -1,44 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.layout')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div>
-                {{ url('/').'/'.$paste->hash }}
-            </div>
-            <div class="content">
-                {{$paste->code}}
-            </div>
+@section('content')
+    <h4 class="mb-3">Твоя паста!</h4>
+    <form method="post" action="{{ url('/') }}">
+        {{ csrf_field() }}
+        <div class="mb-3">
+            <label for="paste_url">Ссылка на твою пасту:</label>
+            <input type="text" id="paste_url" class="form-control" value="{{ url('/').'/'.$paste->hash }}" readonly>
         </div>
-    </body>
-</html>
+        <div class="mb-3">
+            <label for="paste_name">Название пасты:</label>
+            <input type="text" id="paste_name" class="form-control" value="{{$paste->name}}" readonly>
+        </div>
+        <div class="mb-3">
+            <textarea name="paste_code" class="form-control" id="paste_code" readonly>{{$paste->code}}</textarea>
+        </div> 
+    </form>
+    
+@endsection
+                    
+               
